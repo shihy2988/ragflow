@@ -5,7 +5,8 @@ import json
 import logging
 from pathlib import Path
 
-from .service import ExperienceService
+from .models import Experience
+from .pipeline import ExperiencePipeline
 
 
 def main() -> None:
@@ -26,7 +27,7 @@ def main() -> None:
         if not text:
             raise SystemExit("JSON 必须包含 experience 或 text 字段")
 
-    result = ExperienceService().add(text, metadata)
+    result = ExperiencePipeline().process(Experience(text, metadata))
     print(json.dumps({
         "action": result.action,
         "similarity": result.similarity,
